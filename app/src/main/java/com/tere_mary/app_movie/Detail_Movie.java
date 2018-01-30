@@ -68,6 +68,7 @@ public class Detail_Movie extends AppCompatActivity{
             String detailgbr = intentDetail.getExtras().getString("gbr");
             Picasso.with(this)
                     .load("https://image.tmdb.org/t/p/w500" + detailgbr)
+                    .resize(500,350)
                     .placeholder(R.drawable.detail)
                     .into(detailimage);
 

@@ -80,7 +80,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
                 Intent intent = new Intent(context,Detail_Movie.class);
                 intent.putExtra("detailjudul",movies.get(position).getTitle());
                 intent.putExtra("orijudul",movies.get(position).getOriginalTitle());
-                intent.putExtra("gbr",movies.get(position).getBackdropPath());
+                intent.putExtra("gbr",movies.get(position).getPosterPath());
                 intent.putExtra("rating",movies.get(position).getVoteAverage());
                 intent.putExtra("language",movies.get(position).getOriginalLanguage());
                 intent.putExtra("release",movies.get(position).getReleaseDate());
