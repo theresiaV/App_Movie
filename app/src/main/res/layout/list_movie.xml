@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/RelativeLayout_ListMovie"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#000000">
+
+    <ImageButton
+        android:id="@+id/ImageButton_ListMovie1"
+        android:layout_width="190dp"
+        android:layout_height="150dp"
+        app:srcCompat="@android:color/transparent"/>
+
+    <TextView
+        android:id="@+id/TextView_JudulMovie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ImageButton_ListMovie1"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"
+        android:textColor="#FFFFFFFF"/>
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TextView_JudulMovie"
+        android:layout_marginRight="70dp"
+        android:background="@android:color/transparent"
+        android:max="10" />
+
+</RelativeLayout>

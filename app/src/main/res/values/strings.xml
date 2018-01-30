@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MovieDb Application</string>
+    <string name="title_activity_detail_movie">DetailMovie</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

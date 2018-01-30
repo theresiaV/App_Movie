@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout_Awal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context="com.tere_mary.app_movie.MainActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/RecyclerView_Awal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="110dp"
+        android:scrollbars="horizontal" />
+
+    <TextView
+        android:id="@+id/TextView_Logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:text="MDb"
+        android:textColor="#FFF000"
+        android:textSize="36sp"
+        android:textStyle="bold" android:layout_marginStart="5dp"/>
+
+    <EditText
+        android:id="@+id/EditText_Search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/TextView_Logo"
+        android:layout_centerHorizontal="true"
+        android:ems="7"
+        android:hint="Search"
+        android:textColor="#FFFF"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/Button_Search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/EditText_Search"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/circle"
+        android:text="Search"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/Button_Popular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/Button_Upcoming"
+        android:layout_alignBottom="@+id/Button_Upcoming"
+        android:layout_alignLeft="@+id/TextView_Logo"
+        android:layout_alignStart="@+id/TextView_Logo"
+        android:layout_marginLeft="44dp"
+        android:layout_marginStart="44dp"
+        android:background="@drawable/circle"
+        android:text="Popular"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/Button_Upcoming"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Button_Search"
+        android:layout_marginLeft="190dp"
+        android:background="@drawable/circle"
+        android:text="Upcoming"
+        android:textColor="#FFFFFF" android:layout_marginStart="190dp"/>
+
+</RelativeLayout>
