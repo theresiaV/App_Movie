@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,7 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.tere_mary.app_movie.API.APIClient;
@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     //API KEY from themoviedb.org
     private final static String API_KEY = "01ab80596cbd9b2f4aa653d7bde58c15";
 
+    RelativeLayout rlayout;
+
     RecyclerView recyclerView;
     Button popular, upcoming,search;
     EditText searchtext;
@@ -43,18 +45,23 @@ public class MainActivity extends AppCompatActivity {
     List<Movie> movies;
     MovieAdapter adapter;
     ProgressDialog pd;
-    boolean temp = true;
+    int temp;
+    String judulsearch;
 
+    Snackbar snackbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        rlayout = (RelativeLayout) findViewById(R.id.RelativeLayout_Awal);
         //koneksi
         if (!konekNet()) {
-            Toast.makeText(this, "No Connection Internet", Toast.LENGTH_SHORT).show();
+            snackbar.make(rlayout, "No Connection Internet", Snackbar.LENGTH_SHORT)
+                    .show();
         } else {
-            Toast.makeText(this, "Connection Available", Toast.LENGTH_SHORT).show();
+            snackbar.make(rlayout, "Connection Internet", Snackbar.LENGTH_SHORT)
+                    .show();
         }
 
         popular = (Button) findViewById(R.id.Button_Popular);
@@ -62,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         search = (Button) findViewById(R.id.Button_Search);
         searchtext = (EditText) findViewById(R.id.EditText_Search);
 
-        temp = true;
+        temp = 0;
 
         initViews();
         loadJSON();
@@ -70,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         popular.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                temp = true;
+                temp = 0;
 
                 initViews();
                 loadJSON();
@@ -80,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         upcoming.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                temp = false;
+                temp = 1;
 
                 initViews();
                 loadJSON();
@@ -90,7 +97,23 @@ public class MainActivity extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                judulsearch = searchtext.getText().toString();
 
+                if (!"".equals(judulsearch)){
+                    temp = 2;
+
+                    initViews();
+                    loadJSON();
+                } else {
+                    snackbar.make(rlayout, "Input the movie title", Snackbar.LENGTH_SHORT)
+                            .setAction("Retry", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    searchtext.setCursorVisible(true);
+                                }
+                            })
+                            .show();
+                }
             }
         });
     }
@@ -132,7 +155,9 @@ public class MainActivity extends AppCompatActivity {
 
             //API KEY-nya ada atau tidak
             if (API_KEY.isEmpty()) {
-                Toast.makeText(getApplicationContext(), "Please obtain your API_KEY from themoviedb", Toast.LENGTH_LONG).show();
+                snackbar.make(rlayout, "No API Key found", Snackbar.LENGTH_LONG)
+                        .show();
+
                 pd.dismiss();
                 return;
             }
@@ -142,11 +167,14 @@ public class MainActivity extends AppCompatActivity {
             iAPIService apiService = APIClient.getClient().create(iAPIService.class);
             retrofit2.Call<MovieResponse> call = null;
 
-            if (temp == true){
+            if (temp == 0){
                 call = apiService.getPopularMovies(API_KEY);
                 Log.d("","Respon temp" + temp);
-            } else if (temp == false){
+            } else if (temp == 1){
                 call = apiService.getUpcomingMovies(API_KEY);
+                Log.d("","Respon temp" + temp);
+            } else if (temp == 2){
+                call = apiService.searchMovie(API_KEY,judulsearch);
                 Log.d("","Respon temp" + temp);
             }
 
@@ -159,12 +187,31 @@ public class MainActivity extends AppCompatActivity {
                     if (status == 200){
                         pd.dismiss();
                     }
+                    else {
+                        snackbar.make(rlayout, "You respon not 200", Snackbar.LENGTH_SHORT);
+                    }
 
                     //cek movie number yang keambil
                     List<Movie> movies = response.body().getResults();
-                    Log.d(TAG, "Number of movies received : " + movies.size());
-                    Toast.makeText(MainActivity.this, "Number of movies received : " + movies.size(), Toast.LENGTH_LONG).show();
-                    recyclerView.setAdapter(new MovieAdapter(movies, R.layout.list_movie, getApplicationContext()));
+                    if (movies.size() != 0){
+                        Log.d(TAG, "Number of movies received : " + movies.size());
+                        Toast.makeText(MainActivity.this, "Number of movies received : " + movies.size(), Toast.LENGTH_LONG).show();
+                        recyclerView.setAdapter(new MovieAdapter(movies, R.layout.list_movie, getApplicationContext()));
+                    } else {
+                        snackbar.make(rlayout, "Movie not found",Snackbar.LENGTH_LONG)
+                                .setAction("Retry", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        searchtext.setText("");
+                                        searchtext.setFocusable(true);
+
+                                        temp = 0;
+                                        initViews();
+                                        loadJSON();
+                                    }
+                                })
+                                .show();
+                    }
                 }
 
                 @Override

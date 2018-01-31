@@ -1,26 +1,26 @@
 package com.tere_mary.app_movie;
 
-import android.annotation.SuppressLint;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.squareup.picasso.Picasso;
 
 import com.tere_mary.app_movie.Model.Movie;
+import com.tere_mary.app_movie.Model.Trailer;
 
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -78,6 +78,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context,Detail_Movie.class);
+                intent.putExtra("id",movies.get(position).getId());
                 intent.putExtra("detailjudul",movies.get(position).getTitle());
                 intent.putExtra("orijudul",movies.get(position).getOriginalTitle());
                 intent.putExtra("gbr",movies.get(position).getPosterPath());
@@ -85,6 +86,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
                 intent.putExtra("language",movies.get(position).getOriginalLanguage());
                 intent.putExtra("release",movies.get(position).getReleaseDate());
                 intent.putExtra("sinopsis",movies.get(position).getOverview());
+
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
                 Toast.makeText(view.getContext(), "To Detail Movie", Toast.LENGTH_SHORT).show();

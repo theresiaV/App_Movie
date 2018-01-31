@@ -1,12 +1,15 @@
 package com.tere_mary.app_movie;
 
-import android.app.ProgressDialog;
+import android.app.Service;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ImageView;
@@ -15,6 +18,14 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.squareup.picasso.Picasso;
+import com.tere_mary.app_movie.API.APIClient;
+import com.tere_mary.app_movie.API.iAPIService;
+import com.tere_mary.app_movie.Model.Trailer;
+import com.tere_mary.app_movie.Model.TrailerResponse;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Theresia V A Mary G on 1/29/2018.
@@ -22,10 +33,17 @@ import com.squareup.picasso.Picasso;
 
 public class Detail_Movie extends AppCompatActivity{
 
+    //API KEY from themoviedb.org
+    private final static String API_KEY = "01ab80596cbd9b2f4aa653d7bde58c15";
+
     //untuk detail movie
     ImageView detailimage;
     RatingBar detailrating;
     TextView detailjudul,judulori,detailrelease,languageori,sinopsis;
+    int id;
+
+    //trailer
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,7 +54,6 @@ public class Detail_Movie extends AppCompatActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         initCollapsingToolbar();
 
@@ -49,7 +66,11 @@ public class Detail_Movie extends AppCompatActivity{
         detailrelease = (TextView) findViewById(R.id.TextView_DetailReleaseDate);
         sinopsis = (TextView) findViewById(R.id.TextView_Sinopsis);
 
+        recyclerView = (RecyclerView) findViewById(R.id.RecylclerView_Trailer);
+
         Intent intentDetail = getIntent();
+            id = intentDetail.getExtras().getInt("id");
+
             String sinop = intentDetail.getExtras().getString("sinopsis");
             sinopsis.setText(sinop);
 
@@ -75,6 +96,8 @@ public class Detail_Movie extends AppCompatActivity{
             Double vote = intentDetail.getExtras().getDouble("rating");
                 final float rat = (float) (vote / 10f * 5f);
                 detailrating.setRating(rat);
+
+            loadTrailer(id);
     }
 
     private void initCollapsingToolbar(){
@@ -101,6 +124,28 @@ public class Detail_Movie extends AppCompatActivity{
                     collapsingToolbarLayout.setTitle(" ");
                     isShow = false;
                 }
+            }
+        });
+    }
+
+    private void loadTrailer(int id) {
+        APIClient client = new APIClient();
+        iAPIService apiService = client.getClient().create(iAPIService.class);
+        Call<TrailerResponse> trailerResponse = apiService.getTrailers(id, API_KEY);
+        trailerResponse.enqueue(new Callback<TrailerResponse>() {
+            @Override
+            public void onResponse(Call<TrailerResponse> call, Response<TrailerResponse> response) {
+                if (response.isSuccessful()) {
+                    int status = response.code();
+                    Log.d("Response Trailer ", "" + status);
+                    Log.d("Data ", "" + response.body().getResults());
+                   recyclerView.setAdapter(new TrailerAdapter(Detail_Movie.this, response.body().getResults()));
+                    Log.d("Adapter ", "RecyclerView Adapter have");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TrailerResponse> call, Throwable t) {
             }
         });
     }

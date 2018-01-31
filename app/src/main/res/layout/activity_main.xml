@@ -75,7 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Button_Search"
-        android:layout_marginLeft="190dp"
+        android:layout_marginLeft="170dp"
         android:background="@drawable/circle"
         android:text="Upcoming"
         android:textColor="#FFFFFF" android:layout_marginStart="190dp"/>

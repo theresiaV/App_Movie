@@ -40,7 +40,7 @@
 
                 <RatingBar
                     android:id="@+id/RatingBar_DetailMovie"
-                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    style="@style/Widget.AppCompat.RatingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -53,9 +53,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="160dp"
-                    android:textSize="18sp"
-                    android:textColor="#FFFF"/>
+                    android:layout_marginTop="170dp"
+                    android:textColor="#FFFF"
+                    android:textSize="18sp" />
 
             </RelativeLayout>
 
@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="190dp"
+                android:layout_marginTop="20dp"
                 android:text="Original Title"
                 android:textColor="#FFFF"
                 android:textSize="12sp" />
@@ -143,24 +143,6 @@
                 android:textColor="#FFFF"
                 android:textSize="18sp" />
 
-            <LinearLayout
-                android:id="@+id/LinearLayoutVideo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/TextView_DetailReleaseDate"
-                android:orientation="horizontal"
-                android:paddingLeft="2px"
-                android:paddingRight="2px">
-
-                <VideoView
-                    android:id="@+id/VideoView_Detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
             <TextView
                 android:id="@+id/TextView_Overview"
                 android:layout_width="wrap_content"
@@ -181,6 +163,12 @@
                 android:layout_marginTop="5dp"
                 android:textColor="#FFFF"
                 android:textSize="14sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/RecylclerView_Trailer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/TextView_Sinopsis"/>
 
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>

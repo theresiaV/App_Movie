@@ -1,6 +1,7 @@
 package com.tere_mary.app_movie.API;
 
 import com.tere_mary.app_movie.Model.MovieResponse;
+import com.tere_mary.app_movie.Model.TrailerResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -18,4 +19,10 @@ public interface iAPIService {
 
     @GET("movie/upcoming")
     Call<MovieResponse> getUpcomingMovies(@Query("api_key") String apiKey);
+
+    @GET("search/movie")
+    Call<MovieResponse> searchMovie(@Query("api_key") String apiKey, @Query("query") String JUDUL);
+
+    @GET("movie/{movie_id}/videos")
+    Call<TrailerResponse> getTrailers(@Path("movie_id") int id, @Query("api_key") String apiKey);
 }
